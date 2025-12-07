@@ -1,32 +1,18 @@
 from django.urls import path
-from .views import *
+from rest_framework.routers import DefaultRouter
+from .views import UsersViewSet, PhonesViewSet, CardsViewSet, TelegramUserViewSet, FriendsView, FriendsCreate, FriendsUpdate, SearchApiView
 
-urlpatterns = [
-    # Users
-    path('users/',UsersView.as_view()),
-    path('users/post/',UsersCreate.as_view()),
-    path('users/<int:pk>',UsersUpdate.as_view()),
+router = DefaultRouter()
+router.register('users', UsersViewSet, basename='users')
+router.register('phones', PhonesViewSet, basename='phones')
+router.register('cards', CardsViewSet, basename='cards')
+router.register('telegram-users', TelegramUserViewSet, basename='telegram-users')
 
-    # Phones
-    path('phones/',PhonesView.as_view()),
-    path('phones/post/',PhonesCreate.as_view()),
-    path('phones/<int:pk>',PhonesUpdate.as_view()),
+urlpatterns = router.urls
 
-    # Cards
-    path('cards/',CardsView.as_view()),
-    path('cards/post/',CardsCreate.as_view()),
-    path('cards/<int:pk>',CardsUpdate.as_view()),
-
-    # Friends
-    path('friends/',FriendsView.as_view()),
-    path('friends/post/',FriendsCreate.as_view()),
-    path('friends/<int:pk>',FriendsUpdate.as_view()),
-
-    # Workers
-    path('workers/',WorkersView.as_view()),
-    path('workers/post/',WorkersCreate.as_view()),
-    path('workers/<int:pk>',WorkersUpdate.as_view()),
-
-    #Search
-    path('search/',SearchApiView.as_view()),
+urlpatterns += [
+    path('friends/', FriendsView.as_view(), name='friends-list'),
+    path('friends/post/', FriendsCreate.as_view(), name='friends-create'),
+    path('friends/<int:pk>/', FriendsUpdate.as_view(), name='friends-update'),
+    path('search/', SearchApiView.as_view(), name='search-api'),
 ]
